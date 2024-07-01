@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Plasma Image Retention Fixer</title>
+    <style>
+      html,
+      body {
+        position: relative;
+        width: 100%;
+        height: 100%;
+        padding: 0;
+        margin: 0;
+      }
+
+      .p-main {
+        height: 100vh;
+        width: 100vw;
+      }
+    </style>
+  </head>
+  <body>
+    <main id="main" class="p-main" style="background-color: #00ff00">
+      <div class="card">
+        <button id="fullscreen-btn">Toggle fullscreen</button>
+        <button id="start-btn">Start color update</button>
+        <button id="stop-btn">Stop color update</button>
+      </div>
+    </main>
+
+    <script>
+      // Show an initial alert message
+      window.alert(
+        "Caution: I don't know if this could cause seizures. Use at your own risk"
+      );
+
+      let color = "00ff00";
+      let intervalId;
+
+      function randomColor() {
+        // Ensure it returns a 6-digit hexadecimal number
+        return Math.floor(Math.random() * 0xffffff)
+          .toString(16)
+          .padStart(6, "0");
+      }
+
+      // Function to toggle fullscreen mode
+      function toggleFullscreen() {
+        if (!document.fullscreenElement) {
+          document.documentElement.requestFullscreen();
+        } else if (document.exitFullscreen) {
+          document.exitFullscreen();
+        }
+      }
+
+      // Function to start updating the color
+      function startColorUpdate() {
+        stopColorUpdate(); // Ensure any existing interval is cleared
+        intervalId = setInterval(() => {
+          color = randomColor();
+          document.getElementById("main").style.backgroundColor = `#${color}`;
+        }, 50);
+      }
+
+      // Function to stop updating the color
+      function stopColorUpdate() {
+        if (intervalId) {
+          clearInterval(intervalId);
+          intervalId = undefined;
+        }
+      }
+
+      document
+        .getElementById("fullscreen-btn")
+        .addEventListener("click", toggleFullscreen);
+      document
+        .getElementById("start-btn")
+        .addEventListener("click", startColorUpdate);
+      document
+        .getElementById("stop-btn")
+        .addEventListener("click", stopColorUpdate);
+    </script>
+  </body>
+</html>
